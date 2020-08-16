@@ -1,0 +1,19 @@
+{
+  "name": "jwt-auth-mysql",
+  "version": "1.0.0",
+  "description": "Nodejs authentication with jwt, mysql, sequelize",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "sequelize": "^6.3.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "datnguyen",
+  "license": "MIT"
+}
