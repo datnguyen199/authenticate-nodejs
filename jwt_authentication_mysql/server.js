@@ -1,0 +1,44 @@
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+require('./router/router')(app);
+
+const db = require('./config/db.config');
+
+const Role = db.role;
+
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync with { force: true }');
+  initial();
+});
+
+//require('./app/route/project.route.js')(app);
+
+// Create a Server
+var server = app.listen(8080, function () {
+
+  var host = server.address().address
+  var port = server.address().port
+
+  console.log("App listening at http://%s:%s", host, port)
+})
+
+
+function initial(){
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+
+  Role.create({
+    id: 2,
+    name: "admin"
+  });
+
+  Role.create({
+    id: 3,
+    name: "super_admin"
+  });
+}
