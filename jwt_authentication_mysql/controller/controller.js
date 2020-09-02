@@ -2,6 +2,7 @@ const db = require('../config/db.config');
 const config = require('../config/config.js');
 const User = db.user;
 const Role = db.role;
+const Post = db.post;
 const Op = db.Sequelize.Op;
 
 var jwt = require('jsonwebtoken');
@@ -26,7 +27,7 @@ exports.signup = (req, res) => {
   }).catch(err => { res.status(500).send('Error: ' + err) });
 }
 
-exports.async_signup = async (req, res) => {
+exports.asyncSignup = async (req, res) => {
   try {
     const user = await User.create({
       name: req.body.name,
@@ -70,7 +71,7 @@ exports.signin = (req, res) => {
   });
 }
 
-exports.async_signin = async (req, res) => {
+exports.asyncSignin = async (req, res) => {
   if(!(req.body.username || req.body.password)) {
     res.status(401).send({ message: 'please enter username and password!' });
     return;
@@ -95,4 +96,15 @@ exports.async_signin = async (req, res) => {
   } catch(err) {
     res.status(500).send('Error: ' + err)
   }
+}
+
+exports.createPost = (req, res) => {
+  Post.create({
+    title: req.body.title,
+    content: req.body.content
+  }).then(post => {
+    res.status(200).send(post);
+  }).catch(err => {
+    res.status(401).send({ message: err.message })
+  });
 }
