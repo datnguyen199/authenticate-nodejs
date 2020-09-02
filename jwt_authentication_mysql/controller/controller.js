@@ -3,6 +3,7 @@ const config = require('../config/config.js');
 const User = db.user;
 const Role = db.role;
 const Post = db.post;
+const Comment = db.comment;
 const Op = db.Sequelize.Op;
 
 var jwt = require('jsonwebtoken');
@@ -101,10 +102,57 @@ exports.asyncSignin = async (req, res) => {
 exports.createPost = (req, res) => {
   Post.create({
     title: req.body.title,
-    content: req.body.content
+    content: req.body.content,
+    userId: req.userId
   }).then(post => {
     res.status(200).send(post);
   }).catch(err => {
     res.status(401).send({ message: err.message })
   });
+}
+
+exports.findPostById = async (req, res) => {
+  try {
+    const { id: postId } = req.params;
+    console.log(postId);
+    const post = await Post.findOne({
+      where: { id: postId },
+      include: [
+        {
+          model: User
+        }, {
+          model: Comment,
+          include: [ {
+              model: User
+            }
+          ]
+        }
+      ]
+    });
+    if(post) {
+      return res.status(200).json({ post });
+    }
+
+    return res.status(404).send({ message: `cannot find post with id=${postId}` });
+  } catch (err) {
+    res.status(500).send({ message: err.message });
+  }
+}
+
+exports.getAllPosts = async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      include: [
+        {
+          model: User
+        },
+        {
+          model: Comment
+        }
+      ]
+    });
+    res.status(200).json(posts);
+  } catch(err) {
+    res.status(500).send({ message: err.message });
+  }
 }
