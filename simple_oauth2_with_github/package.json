@@ -1,0 +1,15 @@
+{
+  "name": "simple_oauth2_with_github",
+  "version": "1.0.0",
+  "description": "Oauth with github",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "datnguyen",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "express": "^4.17.1"
+  }
+}
