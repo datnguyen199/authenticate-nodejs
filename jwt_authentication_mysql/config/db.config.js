@@ -2,6 +2,8 @@ const env = require('./env');
 const Sequelize = require('sequelize');
 const userModel = require('../model/user.model')
 const roleModel = require('../model/role.model')
+const postModel = require('../model/post.model');
+const commentModel = require('../model/comment.model');
 
 const sequelize = new Sequelize(env.database, env.username, env.password, {
   host: env.host,
@@ -33,7 +35,15 @@ db.sequelize = sequelize;
 
 db.user = userModel(sequelize, Sequelize);
 db.role = roleModel(sequelize, Sequelize);
+db.post = postModel(sequelize, Sequelize);
+db.comment = commentModel(sequelize, Sequelize);
 db.role.belongsToMany(db.user, { through: 'user_roles', foreignKey: 'roleId', otherKey: 'userId'});
 db.user.belongsToMany(db.role, { through: 'user_roles', foreignKey: 'userId', otherKey: 'roleId'});
+db.user.hasMany(db.post, { onDelete: 'CASCADE' });
+db.user.hasMany(db.comment, { onDelete: 'CASCADE' });
+db.post.belongsTo(db.user);
+db.post.hasMany(db.comment, { onDelete: 'CASCADE' });
+db.comment.belongsTo(db.post);
+db.comment.belongsTo(db.user);
 
 module.exports = db;
