@@ -1,3 +1,4 @@
 module.exports = {
-  url: 'mongodb://127.0.0.1:27017/jwt_authen_mongodb'
+  url: 'mongodb://127.0.0.1:27017/jwt_authen_mongodb',
+  ROLES: ['user', 'admin', 'super_admin']
 }
