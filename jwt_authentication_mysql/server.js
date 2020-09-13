@@ -9,10 +9,11 @@ const db = require('./config/db.config');
 
 const Role = db.role;
 
-db.sequelize.sync({alter: true}).then(() => {
+db.sequelize.sync({alter: true}).
+then(() => {
   // console.log('Drop and Resync with { force: true }');
   initial();
-});
+}).catch(err => { console.log(err) });
 
 //require('./app/route/project.route.js')(app);
 

@@ -1,3 +1,5 @@
+const rootPath = require('path').resolve(__dirname, '..');
+require('dotenv').config({path: rootPath + '/.env'});
 const env = require('./env');
 const Sequelize = require('sequelize');
 const userModel = require('../model/user.model')
@@ -5,8 +7,8 @@ const roleModel = require('../model/role.model')
 const postModel = require('../model/post.model');
 const commentModel = require('../model/comment.model');
 
-const sequelize = new Sequelize(env.database, env.username, env.password, {
-  host: env.host,
+const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.USER_NAME, process.env.PASSWORD, {
+  host: process.env.HOST,
   dialect: env.dialect,
 
   pool: {
