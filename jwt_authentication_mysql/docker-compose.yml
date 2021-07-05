@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  app:
+    image: jwt_authen_mysql:v1
+    volumes:
+      - ./:/app
+    ports:
+      - "${PUBLIC_PORT}:${PORT}"
+    restart: unless-stopped
+    environment:
+      - PORT=${PORT}
+      - PUBLIC_PORT=${PUBLIC_PORT}
+    depends_on:
+      - db
+
+  db:
+    image: mysql
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_DATABASE='node_jwt_mysql'
+      - MYSQL_USER='root'
+      - MYSQL_ROOT_PASSWORD='password'
+    ports:
+      - "3306:3306"
